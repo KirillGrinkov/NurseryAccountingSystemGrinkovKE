@@ -1,0 +1,61 @@
+   GrinkovKE deadline 28.10.24 number of group:none 
+    1  echo -e "собаки\nкошки\nхомяки" > Pets.txt
+    2  echo -e "лошади\nверблюды\nослы" > PackAnimals.txt
+    3  sudo apt-get install tree
+    4  tree -d
+    5  rmdir Pets.txt -r
+    6  rmdir Pets.txt 
+    7  rm Pets.txt
+    8  rm PackAnimals.txt
+    9  clear
+   10  mkdir test
+   11  cd test
+   12  tree
+   13  tree -d 
+   14  tree -help
+   15  cd ..
+   16  tree
+   17  echo -e "собаки\nкошки\nхомяки" > Pets.txt
+   18  echo -e "лошади\nверблюды\nослы" > PackAnimals.txt
+   19  cat Pets.txt PackAnimals.txt > HumanFriends.txt
+   20  cat HumanFriends.txt
+   21  mv HumanFriends.txt BestFriends.txt
+   22  tree
+   23  mkdir AnimalRecords
+   24  mv BestFriends.txt AnimalRecords/
+   25  tree
+   26  sudo apt-get install wget lsb-release gnupg 
+   27  wgethttps://dev.mysql.com/get/mysql-apt-config_0.8.22-1_all.deb
+   28  sudo dpkg -i mysql-apt-config_o.8.22-1_all.deb
+   29  clear
+   30  sudo apt-get install virtiofsd
+   31  sudo mount -t virtiofs shared folder /home/
+   32  mount --help
+   33  sudo mount -t virtiofs SharedFolder /home/prosto/SharedDirectory
+   34  sudo apt-get install virtiofsd
+   35  lsmod | grep virtio
+   36  mkdir -p /home/prosto/SharedDirectory
+   37  sudo chmod 777 /home/prosto/SharedDirectory
+   38  sudo mount -t virtiofs SharedFolder /home/prosto/SharedDirectory
+   39  clear
+   40  sudo apt-get install wget lsb-release gnupg
+   41  wget https://dev.mysql.com/get/mysql-apt-config_0.8.22-1_all.deb
+   42  sudo dpkg -i mysql-apt-config_0.8.22-1_all.deb
+   43  сдуфк
+   44  clear
+   45  echo -e "собаки\\nкошки\\nхомяки" > Pets.txt
+   46  echo -e "лошади\\nверблюды\\nослы" > PackAnimals.txt
+   47  cat Pets.txt PackAnimals.txt > HumanFriends.txt
+   48  cat HumanFriends.txt
+   49  mv HumanFriends.txt BestFriends.txt
+   50  mkdir AnimalRecords
+   51  mv BestFriends.txt AnimalRecords/
+   52  tree
+   53  sudo apt-get install wget lsb-release gnupg
+   54  wget <https://dev.mysql.com/get/mysql-apt-config_0.8.22-1_all.deb>
+   55  sudo dpkg -i mysql-apt-config_0.8.22-1_all.deb
+   56  sudo apt-get update
+   57  sudo apt-get install mysql-server
+   58  sudo apt-get install htop
+   59  sudo dpkg -r htop
+   60  history > history.txt
