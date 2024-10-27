@@ -1,0 +1,223 @@
+prosto@prostoVM:~$ sudo service mysql start
+[sudo] пароль для prosto:
+prosto@prostoVM:~$ mysql -u root -p
+Enter password:
+ERROR 1698 (28000): Access denied for user 'root'@'localhost'
+prosto@prostoVM:~$ sudo mysql -u root -p
+Enter password:
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 9
+Server version: 8.0.39-1 (Ubuntu)
+
+Copyright (c) 2000, 2024, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> CREATE DATABASE Human_friends
+mysql> CREATE DATABASE Human_friends;
+Query OK, 1 row affected (0,06 sec)
+
+mysql> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| Human_friends      |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+5 rows in set (0,04 sec)
+
+mysql> USE Human_friends;
+Database changed
+mysql> CREATE TABLE Animal (
+->     id INT AUTO_INCREMENT PRIMARY KEY,
+->     name VARCHAR(50) NOT NULL,
+->     birthDate DATE,
+->     commands TEXT
+-> );
+Query OK, 0 rows affected (0,05 sec)
+
+mysql> CREATE TABLE Pets (
+->     id INT AUTO_INCREMENT PRIMARY KEY,
+->     animal_id INT,
+->     type VARCHAR(30),
+->     FOREIGN KEY (animal_id) REFERENCES Animal(id)
+-> );
+Query OK, 0 rows affected (0,04 sec)
+
+mysql>
+mysql> CREATE TABLE PackAnimals (
+->     id INT AUTO_INCREMENT PRIMARY KEY,
+->     animal_id INT,
+->     loadCapacity INT,
+->     FOREIGN KEY (animal_id) REFERENCES Animal(id)
+-> );
+Query OK, 0 rows affected (0,03 sec)
+
+mysql> CREATE TABLE Dog (
+->     id INT AUTO_INCREMENT PRIMARY KEY,
+->     pet_id INT,
+->     breed VARCHAR(30),
+->     FOREIGN KEY (pet_id) REFERENCES Pets(id)
+-> );
+Query OK, 0 rows affected (0,04 sec)
+
+mysql>
+mysql> CREATE TABLE Cat (
+->     id INT AUTO_INCREMENT PRIMARY KEY,
+->     pet_id INT,
+->     breed VARCHAR(30),
+->     FOREIGN KEY (pet_id) REFERENCES Pets(id)
+-> );
+Query OK, 0 rows affected (0,06 sec)
+
+mysql>
+mysql> CREATE TABLE Horse (
+->     id INT AUTO_INCREMENT PRIMARY KEY,
+->     pack_animal_id INT,
+->     breed VARCHAR(30),
+->     FOREIGN KEY (pack_animal_id) REFERENCES PackAnimals(id)
+-> );
+Query OK, 0 rows affected (0,06 sec)
+
+mysql>
+mysql> CREATE TABLE Camel (
+->     id INT AUTO_INCREMENT PRIMARY KEY,
+->     pack_animal_id INT,
+->     breed VARCHAR(30),
+->     FOREIGN KEY (pack_animal_id) REFERENCES PackAnimals(id)
+-> );
+Query OK, 0 rows affected (0,06 sec)
+
+mysql> INSERT INTO Animal (name, birthDate, commands) VALUES ('Buddy', '2022-03-10', 'Sit, Stay');
+Query OK, 1 row affected (0,03 sec)
+
+mysql> INSERT INTO Animal (name, birthDate, commands) VALUES ('Mittens', '2021-07-15', 'Jump, Play');
+Query OK, 1 row affected (0,01 sec)
+
+mysql> INSERT INTO Animal (name, birthDate, commands) VALUES ('Spirit', '2020-06-05', 'Run, Jump');
+Query OK, 1 row affected (0,00 sec)
+
+mysql> INSERT INTO Animal (name, birthDate, commands) VALUES ('Desert King', '2019-11-25', 'Carry, Walk');
+Query OK, 1 row affected (0,01 sec)
+
+mysql> -- Домашние животные
+mysql> INSERT INTO Pets (animal_id, type) VALUES (1, 'Dog');
+Query OK, 1 row affected (0,01 sec)
+
+mysql> INSERT INTO Pets (animal_id, type) VALUES (2, 'Cat');
+Query OK, 1 row affected (0,01 sec)
+
+mysql>
+mysql> -- Вьючные животные
+mysql> INSERT INTO PackAnimals (animal_id, loadCapacity) VALUES (3, 200);
+Query OK, 1 row affected (0,00 sec)
+
+mysql> INSERT INTO PackAnimals (animal_id, loadCapacity) VALUES (4, 300);
+Query OK, 1 row affected (0,00 sec)
+
+mysql> -- Собаки
+mysql> INSERT INTO Dog (pet_id, breed) VALUES (1, 'Labrador');
+Query OK, 1 row affected (0,01 sec)
+
+mysql>
+mysql> -- Кошки
+mysql> INSERT INTO Cat (pet_id, breed) VALUES (2, 'Siamese');
+Query OK, 1 row affected (0,01 sec)
+
+mysql>
+mysql> -- Лошади
+mysql> INSERT INTO Horse (pack_animal_id, breed) VALUES (1, 'Arabian');
+Query OK, 1 row affected (0,01 sec)
+
+mysql>
+mysql> -- Верблюды
+mysql> INSERT INTO Camel (pack_animal_id, breed) VALUES (2, 'Dromedary');
+Query OK, 1 row affected (0,00 sec)
+
+mysql> DELETE FROM Camel WHERE id = 1;
+Query OK, 1 row affected (0,01 sec)
+
+mysql>
+mysql> CREATE TABLE Horses_Donkeys (
+->     id INT AUTO_INCREMENT PRIMARY KEY,
+->     pack_animal_id INT,
+->     breed VARCHAR(30),
+->     FOREIGN KEY (pack_animal_id) REFERENCES PackAnimals(id)
+-> );
+Query OK, 0 rows affected (0,05 sec)
+
+mysql> INSERT INTO Horses_Donkeys (pack_animal_id, breed)
+-> SELECT pack_animal_id, breed FROM Horse;
+Query OK, 1 row affected (0,01 sec)
+Records: 1  Duplicates: 0  Warnings: 0
+
+mysql> CREATE TABLE Young_Animals (
+->     id INT AUTO_INCREMENT PRIMARY KEY,
+->     name VARCHAR(50),
+->     birthDate DATE,
+->     age_in_months INT,
+->     commands TEXT
+-> );
+Query OK, 0 rows affected (0,04 sec)
+
+mysql> INSERT INTO Young_Animals (name, birthDate, age_in_months, commands)
+-> SELECT name, birthDate, TIMESTAMPDIFF(MONTH, birthDate, CURDATE()) AS age_in_months, commands
+-> FROM Animal
+-> WHERE TIMESTAMPDIFF(YEAR, birthDate, CURDATE()) >= 1
+->   AND TIMESTAMPDIFF(YEAR, birthDate, CURDATE()) < 3;
+Query OK, 1 row affected (0,01 sec)
+Records: 1  Duplicates: 0  Warnings: 0
+
+mysql> CREATE TABLE All_Animals (
+->     id INT AUTO_INCREMENT PRIMARY KEY,
+->     name VARCHAR(50),
+->     birthDate DATE,
+->     commands TEXT,
+->     type VARCHAR(30),
+->     specific_info VARCHAR(50)
+-> );
+Query OK, 0 rows affected (0,04 sec)
+
+mysql> INSERT INTO All_Animals (name, birthDate, commands, type, specific_info)
+-> SELECT [a.name](http://a.name/), a.birthDate, a.commands, 'Dog', d.breed
+-> FROM Animal a
+-> JOIN Pets p ON [a.id](http://a.id/) = p.animal_id
+-> JOIN Dog d ON [p.id](http://p.id/) = d.pet_id;
+Query OK, 1 row affected (0,01 sec)
+Records: 1  Duplicates: 0  Warnings: 0
+
+mysql>
+mysql> INSERT INTO All_Animals (name, birthDate, commands, type, specific_info)
+-> SELECT [a.name](http://a.name/), a.birthDate, a.commands, 'Cat', c.breed
+-> FROM Animal a
+-> JOIN Pets p ON [a.id](http://a.id/) = p.animal_id
+-> JOIN Cat c ON [p.id](http://p.id/) = c.pet_id;
+Query OK, 1 row affected (0,01 sec)
+Records: 1  Duplicates: 0  Warnings: 0
+
+mysql> INSERT INTO All_Animals (name, birthDate, commands, type, specific_info)
+-> SELECT [a.name](http://a.name/), a.birthDate, a.commands, 'Horse', h.breed
+-> FROM Animal a
+-> JOIN PackAnimals pa ON [a.id](http://a.id/) = pa.animal_id
+-> JOIN Horses_Donkeys h ON [pa.id](http://pa.id/) = h.pack_animal_id;
+Query OK, 1 row affected (0,02 sec)
+Records: 1  Duplicates: 0  Warnings: 0
+
+mysql>
+mysql> INSERT INTO All_Animals (name, birthDate, commands, type, specific_info)
+-> SELECT [a.name](http://a.name/), a.birthDate, a.commands, 'Camel', 'N/A'
+-> FROM Animal a
+-> JOIN PackAnimals pa ON [a.id](http://a.id/) = pa.animal_id
+-> LEFT JOIN Camel c ON [pa.id](http://pa.id/) = c.pack_animal_id
+-> WHERE [c.id](http://c.id/) IS NULL;
+Query OK, 2 rows affected (0,00 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql>
